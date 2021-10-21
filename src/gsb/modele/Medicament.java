@@ -61,7 +61,7 @@ public class Medicament {
 		this.contreIndication = contreIndication;
 	}
 	
-	public float getPrixEchantillonn() {
+	public float getPrixEchantillon() {
 		return prixEchantillon;
 	}
 	
