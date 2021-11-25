@@ -27,7 +27,7 @@ public class Offrir {
 		this.uneVisite = uneVisite;
 	}
 	
-	public int getQteOffertet() {
+	public int getQteOfferte() {
 		return qteOfferte;
 	}
 	
