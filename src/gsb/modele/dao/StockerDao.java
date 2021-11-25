@@ -7,9 +7,10 @@ import gsb.modele.Medicament;
 import gsb.modele.Visiteur;
 
 public class StockerDao {
-    public static ArrayList<Medicament> retournerListeStock(String codeVisteur ){
+	
+    public static ArrayList<Medicament> retournerListeStock(String codeVisiteur ){
         ArrayList<Medicament> collectionMedicament = new ArrayList<Medicament>();
-        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where MATRICULE = '"+codeVisteur+"'");
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where MATRICULE = '"+codeVisiteur+"'");
      try {
          while (reqSelection.next()) {
              collectionMedicament.add(MedicamentDao.rechercher(reqSelection.getString(1)));
@@ -22,6 +23,7 @@ public class StockerDao {
      ConnexionMySql.fermerConnexionBd();
      return collectionMedicament;
     }
+    
     public static ArrayList<Visiteur> retournerListeVisiteur(String unMedicament)
     {
         ArrayList<Visiteur> collectionVisiteur = new ArrayList<Visiteur>();
@@ -38,4 +40,5 @@ public class StockerDao {
      ConnexionMySql.fermerConnexionBd();
      return collectionVisiteur;
     }
+    
 }

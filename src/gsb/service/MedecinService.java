@@ -6,6 +6,9 @@
  */
 package gsb.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import gsb.modele.Medecin;
 import gsb.modele.dao.MedecinDao;
 
@@ -21,7 +24,7 @@ public class MedecinService {
 		Medecin unMedecin = null;
 		try{
 		if (unCodeMedecin==null) {
-            throw new Exception("Donnée obligatoire : code");
+            throw new Exception("Donnée obligatoire : un code medecin");
         }
 		unMedecin = MedecinDao.rechercher(unCodeMedecin);
 		}
@@ -31,4 +34,15 @@ public class MedecinService {
 		return unMedecin;
 	}
 	
+	public static ArrayList<Medecin> retournerCollectionDesMedecins(){
+		ArrayList<Medecin> collectionDesMedecins = new ArrayList<Medecin>();
+		collectionDesMedecins = MedecinDao.retournerCollectionDesMedecins();
+		return collectionDesMedecins;
+	}
+	
+	public static HashMap<String,Medecin> retournerDictionnaireDesMedecins(){
+		HashMap<String, Medecin> diccoDesMedecins = new HashMap<String, Medecin>();
+		diccoDesMedecins = MedecinDao.retournerDictionnaireDesMedecins();
+		return diccoDesMedecins;
+	}
 }
