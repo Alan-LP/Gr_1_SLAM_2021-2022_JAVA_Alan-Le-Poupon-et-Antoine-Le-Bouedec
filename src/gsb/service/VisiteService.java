@@ -32,5 +32,19 @@ public class VisiteService {
 		}
 		return ajoutVisite;
 	}
+	
+	public static int modifierVisite(Visite uneVisite){
+		int modifVisite = 0;
+		try{
+		if (uneVisite==null) {
+            throw new Exception("Visite à modifier non renseigné");
+        }
+		modifVisite = VisiteDao.modifier(uneVisite);
+		}
+		catch(Exception e){
+			System.out.println( e.getMessage());
+		}
+		return modifVisite;
+	}
 
 }
