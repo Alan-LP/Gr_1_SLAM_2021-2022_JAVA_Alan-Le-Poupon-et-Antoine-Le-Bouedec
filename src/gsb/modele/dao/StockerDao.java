@@ -9,11 +9,11 @@ import gsb.modele.Visiteur;
 public class StockerDao {
 	
     public static ArrayList<Medicament> retournerListeStock(String codeVisiteur ){
-        ArrayList<Medicament> collectionMedicament = new ArrayList<Medicament>();
+        ArrayList<Medicament> collectionDesMedicaments = new ArrayList<Medicament>();
         ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where MATRICULE = '"+codeVisiteur+"'");
      try {
          while (reqSelection.next()) {
-             collectionMedicament.add(MedicamentDao.rechercher(reqSelection.getString(1)));
+             collectionDesMedicaments.add(MedicamentDao.rechercher(reqSelection.getString(1)));
          }
      }
      catch (Exception e) {
@@ -21,16 +21,16 @@ public class StockerDao {
          e.printStackTrace();
      }
      ConnexionMySql.fermerConnexionBd();
-     return collectionMedicament;
+     return collectionDesMedicaments;
     }
     
     public static ArrayList<Visiteur> retournerListeVisiteur(String unMedicament)
     {
-        ArrayList<Visiteur> collectionVisiteur = new ArrayList<Visiteur>();
-        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where MED_DEPOTLEGAL = '"+unMedicament+"'");
+        ArrayList<Visiteur> collectionDesVisiteurs = new ArrayList<Visiteur>();
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where DEPOTLEGAL = '"+unMedicament+"'");
      try {
          while (reqSelection.next()) {
-             collectionVisiteur.add(VisiteurDao.rechercher(reqSelection.getString(2)));
+             collectionDesVisiteurs.add(VisiteurDao.rechercher(reqSelection.getString(2)));
          }
      }
      catch (Exception e) {
@@ -38,7 +38,7 @@ public class StockerDao {
          e.printStackTrace();
      }
      ConnexionMySql.fermerConnexionBd();
-     return collectionVisiteur;
+     return collectionDesVisiteurs;
     }
     
 }

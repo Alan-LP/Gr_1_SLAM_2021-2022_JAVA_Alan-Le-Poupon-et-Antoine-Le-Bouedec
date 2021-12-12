@@ -9,31 +9,31 @@ import gsb.modele.dao.StockerDao;
 public class StockerService {
 	
 	public static  ArrayList<Medicament> retournerListeStock(String codeVisiteur){
-		ArrayList<Medicament> collectionMedicament = new ArrayList<Medicament>();
+		ArrayList<Medicament> collectionDesMedicaments = new ArrayList<Medicament>();
 		try{
 		if (codeVisiteur==null) {
             throw new Exception("Code visiteur non renseigné");
         }
-		collectionMedicament = StockerDao.retournerListeStock(codeVisiteur);
+		collectionDesMedicaments = StockerDao.retournerListeStock(codeVisiteur);
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
 		}
-		return collectionMedicament;
+		return collectionDesMedicaments;
 	}
 	
 	public static  ArrayList<Visiteur> retournerListeVisiteur(String unMedicament){
-		ArrayList<Visiteur> collectionVisiteur = new ArrayList<Visiteur>();
+		ArrayList<Visiteur> collectionDesVisiteurs = new ArrayList<Visiteur>();
 		try{
 		if (unMedicament==null) {
             throw new Exception("Un medicament non renseigné");
         }
-		collectionVisiteur = StockerDao.retournerListeVisiteur(unMedicament);
+		collectionDesVisiteurs = StockerDao.retournerListeVisiteur(unMedicament);
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
 		}
-		return collectionVisiteur;
+		return collectionDesVisiteurs;
 	}
 
 }

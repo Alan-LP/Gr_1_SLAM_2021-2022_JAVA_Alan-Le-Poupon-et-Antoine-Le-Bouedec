@@ -6,10 +6,10 @@ import gsb.modele.Medecin;
 public class MedecinTest {
 
         public static void main(String[] args) {
-            Localite uneLocalite = new Localite("45000","Orleans");
-            Medecin unMedecin = new Medecin("MEC001","RAOUL","Medecin",
-                    "24 rue du bled",uneLocalite,"0617222222",
-                    "100%","pied");
+            Localite uneLocalite = new Localite("75000","Paris");
+            Medecin unMedecin = new Medecin("MED001","Louis","Pasteur",
+                    "12 rue de la sainte",uneLocalite,"0617423699",
+                    "100%","vaccin");
             MedecinTest.afficherMedecin(unMedecin);
         }
 

@@ -53,7 +53,7 @@ public class VisiteDao {
 			
 		}
 		catch(Exception e) {
-			System.out.println("erreur reqInsertion");
+			System.out.println("erreur reqModif");
 			e.printStackTrace();
 		}
 		return verifModif;

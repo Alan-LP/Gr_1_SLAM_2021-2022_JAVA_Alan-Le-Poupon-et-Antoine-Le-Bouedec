@@ -10,11 +10,11 @@ public class VisiteTest {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        Localite uneLocaliteMed = new Localite("45000","Orleans");
-        Medecin unMedecin = new Medecin("MEC001","RAOUL","Medecin","24 rue du bled",uneLocaliteMed,"0617222222","100%","pied");
-        Localite uneLocaliteVis = new Localite("45000","Orleans");
-        Visiteur unVisiteur = new Visiteur("VISITEUR01","MAN","ANT","ANT-MAN","Avengers","Film Marvel",uneLocaliteVis,"10 NOVEMBRE","101","Battaillon");
-        Visite uneVisite = new Visite("REF45","3 Mars","Commenter avec un point",unMedecin,unVisiteur);
+        Localite uneLocaliteMed = new Localite("75000","Paris");
+        Medecin unMedecin = new Medecin("MED001","Louis","Pasteur","12 rue de la sainte",uneLocaliteMed,"0617423699","100%","vaccin");
+        Localite uneLocaliteVis = new Localite("75000","Paris");
+        Visiteur unVisiteur = new Visiteur("VIS001","Boucham","Abdel","AbdelBouch","Avengers","10 rue de la fortune",uneLocaliteVis,"17 Février","99","Battaillon");
+        Visite uneVisite = new Visite("REF001","3 Mars","Visite URGENTE",unMedecin,unVisiteur);
         VisiteTest.afficherVisite(uneVisite);
     }
 

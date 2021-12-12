@@ -8,15 +8,15 @@ import gsb.modele.Visite;
 
 public class OffrirDao {
 	
-	//retourne une collection contenant les visites concernants le médicament donné en paramètre
+	//retourne une collection contenant les visites concernant le médicament donné en paramètre
 	public static ArrayList<Visite> retournerListeOffre(String unCodeMedicament)
 	{
-		ArrayList<Visite> collectionVisite = new ArrayList<Visite>();
-		ResultSet reqSelection = ConnexionMySql.execReqSelection("select REFERENCE from OFFRIR where MED_DEPOTLEGAL = '"+unCodeMedicament+"'");
+		ArrayList<Visite> collectionDesVisites = new ArrayList<Visite>();
+		ResultSet reqSelection = ConnexionMySql.execReqSelection("select REFERENCE from OFFRIR where DEPOTLEGAL = '"+unCodeMedicament+"'");
 		try {
 			while (reqSelection.next())
 			{
-				collectionVisite.add(VisiteDao.rechercher(reqSelection.getString(1)));
+				collectionDesVisites.add(VisiteDao.rechercher(reqSelection.getString(1)));
 			}
 		}
 		catch (Exception e) {
@@ -24,18 +24,18 @@ public class OffrirDao {
 			e.printStackTrace();
 		}
 		ConnexionMySql.fermerConnexionBd();
-		return collectionVisite;
+		return collectionDesVisites;
 	}
 	
 	//retourne une collection contenant les médicaments offert lors d'une visite en paramètre
 	public static ArrayList<Medicament> retournerListeMedicament(String unCodeVisite)
 	{
-		ArrayList<Medicament> collectionMedicament = new ArrayList<Medicament>();
-		ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from MED_DEPOTLEGAL where REFERENCE = '"+unCodeVisite+"'");
+		ArrayList<Medicament> collectionDesMedicaments = new ArrayList<Medicament>();
+		ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from OFFRIR where REFERENCE = '"+unCodeVisite+"'");
 		try {
 			while (reqSelection.next())
 			{
-				collectionMedicament.add(MedicamentDao.rechercher(reqSelection.getString(1)));
+				collectionDesMedicaments.add(MedicamentDao.rechercher(reqSelection.getString(1)));
 			}
 		}
 		catch (Exception e) {
@@ -43,7 +43,7 @@ public class OffrirDao {
 			e.printStackTrace();
 		}
 		ConnexionMySql.fermerConnexionBd();
-		return collectionMedicament;
+		return collectionDesMedicaments;
 	}
 
 }

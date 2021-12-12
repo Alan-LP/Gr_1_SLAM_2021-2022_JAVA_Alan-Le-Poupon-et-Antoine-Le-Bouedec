@@ -10,11 +10,11 @@ public class StockerTest {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         Medicament unMedicament = new Medicament("DEP002","Viagra","cachet bleu","secondaire","a gober",1.01,"FAM001","Les gobeurs");
-        Localite uneLocaliteVis = new Localite("45000","Orleans");
-        Visiteur unVisiteur = new Visiteur("VISITEUR01","MAN","ANT","ANT-MAN","Avengers","Film Marvel",uneLocaliteVis,"10 NOVEMBRE","101","Battaillon");
+        Localite uneLocaliteVis = new Localite("75000","Paris");
+        Visiteur unVisiteur = new Visiteur("VIS001","Boucham","Abdel","AbdelBouch","Avengers","10 rue de la fortune",uneLocaliteVis,"17 Février","99","Battaillon");
 
 
-        Stocker unStock = new Stocker(997,unVisiteur,unMedicament);
+        Stocker unStock = new Stocker(445,unVisiteur,unMedicament);
 
         StockerTest.afficherStocker(unStock);
     }

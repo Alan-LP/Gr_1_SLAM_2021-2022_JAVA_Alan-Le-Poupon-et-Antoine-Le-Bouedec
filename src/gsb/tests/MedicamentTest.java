@@ -6,8 +6,8 @@ public class MedicamentTest {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        Medicament unMedicament = new Medicament("DEP001","AmourdeADAM","poudre blanche",
-                "secondaire","a gober",1.01,"FAM001","Les gobeurs");
+        Medicament unMedicament = new Medicament("DEP001","AntiDouleur","poudre blanche",
+                "secondaire","a gober",2.01,"FAM001","Les gobeurs");
         MedicamentTest.afficherMedicament(unMedicament);
 
     }

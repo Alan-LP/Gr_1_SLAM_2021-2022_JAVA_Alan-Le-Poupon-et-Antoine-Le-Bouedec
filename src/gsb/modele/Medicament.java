@@ -65,7 +65,7 @@ public class Medicament {
 		return prixEchantillon;
 	}
 	
-	public void setPrixEchantillon(float prixEchantillon) {
+	public void setPrixEchantillon(double prixEchantillon) {
 		this.prixEchantillon = prixEchantillon;
 	}
 	

@@ -7,10 +7,10 @@ public class VisiteurTest {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        Localite uneLocalite = new Localite("45000","Orleans");
-        Visiteur unVisiteur = new Visiteur("VISITEUR01","MAN","ANT",
-                "ANT-MAN","Avengers","Film Marvel",uneLocalite,"10 NOVEMBRE",
-                "101","Battaillon");
+        Localite uneLocalite = new Localite("75000","Paris");
+        Visiteur unVisiteur = new Visiteur("VIS001","Boucham","Abdel",
+        		"AbdelBouch","Avengers","10 rue de la fortune",uneLocalite,"17 Février",
+        		"99","Battaillon");
         VisiteurTest.afficherVisiteur(unVisiteur);
     }
 
