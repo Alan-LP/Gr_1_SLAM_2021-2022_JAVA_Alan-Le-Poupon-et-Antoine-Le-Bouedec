@@ -9,25 +9,6 @@ import gsb.modele.Offrir;
 
 public class OffrirDao {
 	
-	//retourne une collection contenant les offres concernant la reference de la visite
-	public static ArrayList<Offrir> retournerListeOffre(String uneReference)
-	{
-		ArrayList<Offrir> lesOffres = new ArrayList<Offrir>();
-		ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from OFFRIR where REFERENCE = '"+uneReference+"'");
-		try {
-			while (reqSelection.next())
-			{
-				lesOffres.add(OffrirDao.rechercher(reqSelection.getString(1)));
-			}
-		}
-		catch (Exception e) {
-			System.out.println("erreur de la requête de selection");
-			e.printStackTrace();
-		}
-		ConnexionMySql.fermerConnexionBd();
-		return lesOffres;
-	}
-	
 	//retourne une collection contenant les visites concernant le médicament donné en paramètre
 	public static ArrayList<Visite> retournerListeVisite(String unCodeMedicament)
 	{

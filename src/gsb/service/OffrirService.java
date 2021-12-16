@@ -14,7 +14,7 @@ public class OffrirService {
 		if (unCodeMedicament==null) {
             throw new Exception("Code médicament non renseigné");
         }
-		collectionDesVisites = OffrirDao.retournerListeOffre(unCodeMedicament);
+		collectionDesVisites = OffrirDao.retournerListeVisite(unCodeMedicament);
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
