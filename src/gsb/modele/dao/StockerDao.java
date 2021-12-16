@@ -27,7 +27,7 @@ public class StockerDao {
     public static ArrayList<Visiteur> retournerListeVisiteur(String unMedicament)
     {
         ArrayList<Visiteur> collectionDesVisiteurs = new ArrayList<Visiteur>();
-        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where DEPOTLEGAL = '"+unMedicament+"'");
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from STOCKER where MED_DEPOTLEGAL = '"+unMedicament+"'");
      try {
          while (reqSelection.next()) {
              collectionDesVisiteurs.add(VisiteurDao.rechercher(reqSelection.getString(2)));

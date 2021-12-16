@@ -24,7 +24,7 @@ public class Visite {
     }
     
     public String getDate() {
-        return reference;
+        return date;
     }
 
     public void setDate(String date) {

@@ -9,7 +9,7 @@ public class MedicamentDao {
 	public static Medicament rechercher(String codeMedicament){
 		Medicament unMedicament = null;
 		
-		ResultSet reqSelect = ConnexionMySql.execReqSelection("select * from MEDICAMENT where DEPOTLEGAL = '"+codeMedicament+"'");
+		ResultSet reqSelect = ConnexionMySql.execReqSelection("select * from MEDICAMENT where MED_DEPOTLEGAL = '"+codeMedicament+"'");
 		try {
 			if (reqSelect.next())
 			{
@@ -18,7 +18,7 @@ public class MedicamentDao {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("erreur reqSelect.next() pour la requête - select * from MEDICAMENT where DEPOTLEGAL ='"+codeMedicament+"'");
+			System.out.println("erreur reqSelect.next() pour la requête - select * from MEDICAMENT where MED_DEPOTLEGAL ='"+codeMedicament+"'");
 			e.printStackTrace();
 		}
 		ConnexionMySql.fermerConnexionBd();
