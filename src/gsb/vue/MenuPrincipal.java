@@ -71,6 +71,9 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		JMenuItem mE2 = new JMenuItem("Ajout Medicaments");
 		mE2.addActionListener(this);
 		mMedicaments.add(mE2);
+		JMenuItem mE3 = new JMenuItem("Medicament par famille");
+		mE3.addActionListener(this);
+		mMedicaments.add(mE3);
 
 		mVisites = new JMenu("Visites");
 		JMenuItem mA1 = new JMenuItem("Consultation Visite");
@@ -94,12 +97,34 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		if (evt.getSource() instanceof JMenuItem) {
 			String ChoixOption = evt.getActionCommand();
 
-			if (ChoixOption.equals("Consultation Medecin")) {
+			if (ChoixOption.equals("Consultation Medecin")) 
+			{
 				// Creation d'une sous-fenêtre
 				ouvrirFenetre(new JIFMedecinCons());
-
-			} else if (ChoixOption.equals("Liste Medecins")) {
+			} 
+			else if (ChoixOption.equals("Liste Medecins")) 
+			{
 				ouvrirFenetre(new JIFMedecinListeDic(this));
+			} 
+			else if (ChoixOption.equals("Consultation Medicament")) 
+			{
+				ouvrirFenetre(new JIFMedicamentListe(this));
+			}	
+			else if (ChoixOption.equals("Ajout Medicaments")) 
+			{
+				ouvrirFenetre(new JIFMedicamentAdd(this));
+			}
+			else if (ChoixOption.equals("Medicament par famille")) 
+			{
+				//ouvrirFenetre(new JIFMedicamentFam(this));
+			}
+			else if (ChoixOption.equals("Consultation Visite")) 
+			{
+				//ouvrirFenetre(new #Alan#(this));
+			}
+			else if (ChoixOption.equals("Ajout Visite")) 
+			{
+				//ouvrirFenetre(new #Alan#(this));
 			}
 
 		}
