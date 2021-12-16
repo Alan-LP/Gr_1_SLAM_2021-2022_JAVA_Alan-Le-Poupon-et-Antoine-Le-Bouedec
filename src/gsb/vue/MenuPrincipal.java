@@ -120,11 +120,11 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 			}
 			else if (ChoixOption.equals("Consultation Visite")) 
 			{
-				//ouvrirFenetre(new #Alan#(this));
+				//ouvrirFenetre(new JIFVisiteCons());
 			}
 			else if (ChoixOption.equals("Ajout Visite")) 
 			{
-				//ouvrirFenetre(new #Alan#(this));
+				ouvrirFenetre(new JIFVisiteAjout());
 			}
 
 		}
