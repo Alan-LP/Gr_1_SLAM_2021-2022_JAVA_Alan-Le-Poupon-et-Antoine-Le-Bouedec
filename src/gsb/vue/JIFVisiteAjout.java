@@ -63,6 +63,7 @@ public class JIFVisiteAjout extends JInternalFrame  implements ActionListener {
 		JLcommentaire = new JLabel("Commentaire");
 		pTexte.add(JLcommentaire);
 		JTcommentaire = new JTextField();
+		JTcommentaire.setEditable(false);
 		pTexte.add(JTcommentaire);
 		
 		JLmatricule = new JLabel("Matricule visiteur");

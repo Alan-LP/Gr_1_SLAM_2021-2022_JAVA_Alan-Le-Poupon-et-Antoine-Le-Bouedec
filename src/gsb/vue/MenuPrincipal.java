@@ -31,6 +31,8 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 2591453837113855452L;
 
+	private static final String String = null;
+
 	protected JInternalFrame myJInternalFrame;
 	protected JDesktopPane desktopPane;
 	protected JMenuBar mbar;
@@ -65,10 +67,10 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		mMedecins.add(mC2);
 
 		mMedicaments = new JMenu("Medicaments");
-		JMenuItem mE1 = new JMenuItem("Consultation Medicament");
+		JMenuItem mE1 = new JMenuItem("Liste des médicaments");
 		mE1.addActionListener(this); // installation d'un écouteur d'action
 		mMedicaments.add(mE1);
-		JMenuItem mE2 = new JMenuItem("Ajout Medicaments");
+		JMenuItem mE2 = new JMenuItem("Ajout d'un médicament");
 		mE2.addActionListener(this);
 		mMedicaments.add(mE2);
 		JMenuItem mE3 = new JMenuItem("Medicament par famille");
@@ -76,12 +78,18 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		mMedicaments.add(mE3);
 
 		mVisites = new JMenu("Visites");
-		JMenuItem mA1 = new JMenuItem("Consultation Visite");
-		mE1.addActionListener(this); // installation d'un écouteur d'action
+		JMenuItem mA1 = new JMenuItem("Ajout d'une visite");
+		mA1.addActionListener(this); // installation d'un écouteur d'action
 		mVisites.add(mA1);
-		JMenuItem mA2 = new JMenuItem("Ajout Visite");
+		JMenuItem mA2 = new JMenuItem("Mise à jour d'une visite");
 		mA2.addActionListener(this);
 		mVisites.add(mA2);
+		JMenuItem mA3 = new JMenuItem("Liste des visites");
+		mA3.addActionListener(this);
+		mVisites.add(mA3);
+		JMenuItem mA4 = new JMenuItem("Récapitulatif d'une visite");
+		mA4.addActionListener(this);
+		mVisites.add(mA4);
 
 		mbar.add(mMedecins);
 		mbar.add(mMedicaments);
@@ -106,25 +114,33 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 			{
 				ouvrirFenetre(new JIFMedecinListeDic(this));
 			} 
-			else if (ChoixOption.equals("Consultation Medicament")) 
+			else if (ChoixOption.equals("Liste des médicaments")) 
 			{
 				ouvrirFenetre(new JIFMedicamentListe(this));
 			}	
-			else if (ChoixOption.equals("Ajout Medicaments")) 
+			else if (ChoixOption.equals("Ajout d'un médicament")) 
 			{
 				ouvrirFenetre(new JIFMedicamentAdd(this));
 			}
 			else if (ChoixOption.equals("Medicament par famille")) 
 			{
-				//ouvrirFenetre(new JIFMedicamentFam(this));
+				//ouvrirFenetre(new JIFMedicamentFamille(this));
 			}
-			else if (ChoixOption.equals("Consultation Visite")) 
-			{
-				//ouvrirFenetre(new JIFVisiteCons());
-			}
-			else if (ChoixOption.equals("Ajout Visite")) 
+			else if (ChoixOption.equals("Ajout d'une visite")) 
 			{
 				ouvrirFenetre(new JIFVisiteAjout());
+			}
+			else if (ChoixOption.equals("Mise à jour d'une visite")) 
+			{
+				ouvrirFenetre(new JIFVisiteMaj());
+			}
+			else if (ChoixOption.equals("Liste des visites")) 
+			{
+				ouvrirFenetre(new JIFVisiteListe());
+			}
+			else if (ChoixOption.equals("Récapitulatif d'une visite")) 
+			{
+				ouvrirFenetre(new JIFVisiteRecapitulatif());
 			}
 
 		}

@@ -49,68 +49,68 @@ public class JIFMedicamentAdd extends JInternalFrame implements ActionListener{
 		
 		fenetreContainer = uneFenetreContainer;
 		
-    	p = new JPanel();  // panneau principal de la fenêtre
+		p = new JPanel();  // panneau principal de la fenêtre
         pBouton = new JPanel();    // panneau supportant les boutons
         pTexte = new JPanel(new GridLayout(9,2));
+        
+        JLdepotLegal = new JLabel("Dépôt légal");
+        JLnomCommercial = new JLabel("Nom commercial");
+        JLcomposition = new JLabel("Composition");
+        JLeffets = new JLabel("Effets");
+        JLcontreIndications = new JLabel("Contre indications");
+        JLprixEchantillon = new JLabel("Prix échantillon");
+        JLcodeFamille = new JLabel("Code famille");
+        JLlibelleFamille = new JLabel("Libellé famille");
     	
-    	 JLdepotLegal = new JLabel("Depot Legal");
-         JLnomCommercial = new JLabel("Nom Commercial");
-         JLcomposition = new JLabel("Composition");
-         JLeffets = new JLabel("Effets");
-         JLcontreIndications = new JLabel("Contre Indications");
-         JLprixEchantillon = new JLabel("Prix Echantillon");
-         JLcodeFamille = new JLabel("Code Famille");
-         JLlibelleFamille = new JLabel("Libelle Famille");
-         
-         p = new JPanel();
-         pSaisie = new JPanel(new GridLayout(8,2));
-         JTdepotLegal = new JTextField(20);
-         JTdepotLegal.setMaximumSize(JTdepotLegal.getPreferredSize());
-         JTnomCommercial = new JTextField();
-         JTnomCommercial.setMaximumSize(JTnomCommercial.getPreferredSize());
-         JTcomposition = new JTextField();
-         JTcomposition.setMaximumSize(JTcomposition.getPreferredSize());
-         JTeffets = new JTextField();    
-         JTeffets.setMaximumSize(JTeffets.getPreferredSize());
-         JTcontreIndications = new JTextField();
-         JTcontreIndications.setMaximumSize(JTcontreIndications.getPreferredSize());
-         JTprixEchantillon = new JTextField();
-         JTprixEchantillon.setMaximumSize(JTprixEchantillon.getPreferredSize());
-         JTcodeFamille = new JTextField();
-         JTcodeFamille.setMaximumSize(JTcodeFamille.getPreferredSize());
-         JTlibelleFamille = new JTextField();
-         JTlibelleFamille.setMaximumSize(JTlibelleFamille.getPreferredSize());
-         
-         JBajouterMedicament = new JButton("Ajouter Medicament");
-         JBajouterMedicament.addActionListener(this);
-         p.add(pSaisie);
-         
-         pTexte.add(JLdepotLegal);
-         pTexte.add(JTdepotLegal);
-         pTexte.add(JLnomCommercial);
-         pTexte.add(JTnomCommercial);
-         pTexte.add(JLcomposition);
-         pTexte.add(JTcomposition);
-         pTexte.add(JLeffets);
-         pTexte.add(JTeffets);
-         pTexte.add(JLcontreIndications);
-         pTexte.add(JTcontreIndications);
-         pTexte.add(JLprixEchantillon);
-         pTexte.add(JTprixEchantillon);
-         pTexte.add(JLcodeFamille);
-         pTexte.add(JTcodeFamille);
-         pTexte.add(JLlibelleFamille);
-         pTexte.add(JTlibelleFamille);
-         
-         pBouton.add(JBajouterMedicament);
+        p = new JPanel();
+        pSaisie = new JPanel(new GridLayout(8,2));
+        JTdepotLegal = new JTextField(20);
+        JTdepotLegal.setMaximumSize(JTdepotLegal.getPreferredSize());
+        JTnomCommercial = new JTextField();
+        JTnomCommercial.setMaximumSize(JTnomCommercial.getPreferredSize());
+        JTcomposition = new JTextField();
+        JTcomposition.setMaximumSize(JTcomposition.getPreferredSize());
+        JTeffets = new JTextField();    
+        JTeffets.setMaximumSize(JTeffets.getPreferredSize());
+        JTcontreIndications = new JTextField();
+        JTcontreIndications.setMaximumSize(JTcontreIndications.getPreferredSize());
+        JTprixEchantillon = new JTextField();
+        JTprixEchantillon.setMaximumSize(JTprixEchantillon.getPreferredSize());
+        JTcodeFamille = new JTextField();
+        JTcodeFamille.setMaximumSize(JTcodeFamille.getPreferredSize());
+        JTlibelleFamille = new JTextField();
+        JTlibelleFamille.setMaximumSize(JTlibelleFamille.getPreferredSize());
+        
+        JBajouterMedicament = new JButton("Ajouter Medicament");
+        JBajouterMedicament.addActionListener(this);
+        p.add(pSaisie);
+        
+        pTexte.add(JLdepotLegal);
+        pTexte.add(JTdepotLegal);
+        pTexte.add(JLnomCommercial);
+        pTexte.add(JTnomCommercial);
+        pTexte.add(JLcomposition);
+        pTexte.add(JTcomposition);
+        pTexte.add(JLeffets);
+        pTexte.add(JTeffets);
+        pTexte.add(JLcontreIndications);
+        pTexte.add(JTcontreIndications);
+        pTexte.add(JLprixEchantillon);
+        pTexte.add(JTprixEchantillon);
+        pTexte.add(JLcodeFamille);
+        pTexte.add(JTcodeFamille);
+        pTexte.add(JLlibelleFamille);
+        pTexte.add(JTlibelleFamille);
+        
+        pBouton.add(JBajouterMedicament);
 		p.add(pTexte);
 		p.add(pBouton);
-        // mise en forme de la fenêtre
-
-         Container contentPane = getContentPane();
-         contentPane.add(p);
-         
-         setTitle("Ajout de médicament");
+        
+		// mise en forme de la fenêtre
+        Container contentPane = getContentPane();
+        contentPane.add(p);
+        
+        setTitle("Ajout d'un médicament");
 
 	}
 	

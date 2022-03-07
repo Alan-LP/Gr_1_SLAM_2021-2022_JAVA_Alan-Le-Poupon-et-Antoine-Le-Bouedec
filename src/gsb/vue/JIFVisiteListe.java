@@ -1,124 +1,143 @@
 package gsb.vue;
 
-import gsb.modele.Visite;
-import gsb.modele.Medecin;
-import gsb.modele.Offrir;
-import gsb.modele.Visiteur;
-
-import gsb.modele.dao.VisiteDao;
-import gsb.modele.dao.MedecinDao;
-import gsb.modele.dao.OffrirDao;
-import gsb.modele.dao.VisiteurDao;
-
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class JIFVisiteListe extends JInternalFrame  implements ActionListener {
-	/**
-	 * Commentaire pour <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
+import gsb.modele.Visite;
+import gsb.modele.Visiteur;
+import gsb.service.VisiteService;
+import gsb.service.VisiteurService;
+
+public class JIFVisiteListe extends JInternalFrame implements ActionListener, ListSelectionListener {
 	
-	// déclaration des panneaux qui contiendront les composants graphiques
-	protected JPanel p; 
-	protected JPanel pInputs;
-	protected JPanel pList;
-	protected JPanel pButtons;
+	private static final long serialVersionUID = 3630L;
 	
-	// déclaration des composants graphiques
-	protected JLabel JLcode;
+	private TreeMap<String,Visite> dicoVisite;
+
+
+	protected JPanel p;
+	
+	protected JPanel pSaisie1;
+	protected JLabel JLmatricule;
+	protected JComboBox<String> JCmatricule;
 	protected JLabel JLdate;
-	protected JLabel JLreference;
-	
-	protected JTextField JTcode;
 	protected JTextField JTdate;
-	protected JTextField JTreference;
+	
+	protected JScrollPane scrollPane;
+	
+	protected JPanel pSaisie2;
+	protected JLabel JLrefVisite;
+	protected JComboBox<String> JCrefVisite;
+	protected JButton JBafficherVisite;
 	
 	protected MenuPrincipal fenetreContainer;
-	
-	TreeMap<String, Visite> lesVisites;
-	
-	protected JButton JBvisite;
-	protected JTable JTliste;
-	
-	public JIFVisiteListe(MenuPrincipal uneFenetreContainer) {
+	protected JTable table;
+
+	public JIFVisiteListe(MenuPrincipal uneFenetreContainer, String matricule, String date) {
 
 		fenetreContainer = uneFenetreContainer;
 		
-		p = new JPanel(new GridLayout(3,1));
-		pInputs = new JPanel(new GridLayout(2,2));
-		p.add(pInputs);
-		pList = new JPanel(new GridLayout(1,1));
-		p.add(pList);
-		pButtons = new JPanel(new GridLayout(1,3));
-		p.add(pButtons);
+		dicoVisite = VisiteService.rechercherListeVisites(matricule,date);
+		int nbLignes = dicoVisite.size();
 		
-		JLcode = new JLabel("Code visiteur");
-		pInputs.add(JLcode);
-		JTcode = new JTextField();
-		pInputs.add(JTcode);
+		p = new JPanel(); // panneau principal de la fenêtre
 		
-		JLdate = new JLabel("Date visite");
-		pInputs.add(JLdate);
-		JTdate = new JTextField();
-		pInputs.add(JTdate);
+		//champs de saisie visiteur et date
 		
-		lesVisites = VisiteDao.retournerLesVisites();
+		pSaisie1 = new JPanel(new GridLayout(2,2));
+		JLmatricule = new JLabel("Matricule Visiteur : ");
+		JCmatricule = new JComboBox<String>();
+		TreeMap<String, Visiteur> lesVisiteurs = VisiteurService.recupListe();
+		JCmatricule.addItem("");
+		for(String key : lesVisiteurs.keySet())
+			JCmatricule.addItem(key);
+		JCmatricule.setSelectedItem(matricule);
+		JCmatricule.addActionListener(this);
+		JLdate = new JLabel("Date Visite : ");
+		JTdate = new JTextField(date);
+		JTdate.addActionListener(this);
+		pSaisie1.add(JLmatricule);
+		pSaisie1.add(JCmatricule);
+		pSaisie1.add(JLdate);
+		pSaisie1.add(JTdate);
+		p.add(pSaisie1);
 		
-		String[][] lignes = new String[lesVisites.size()][3];
-		
+		//table des visites
+
 		int i = 0;
-		for (Map.Entry<String, Visite> uneEntree : lesVisites.entrySet()) {
-			lignes[i][0] = uneEntree.getValue().getReference();
-			lignes[i][1] = uneEntree.getValue().getUnMedecin().getCodeMed();
-			lignes[i][2] = uneEntree.getValue().getUnMedecin().getAdresse();
-			i++;
+		String[][] data = new String[nbLignes][3];
+		for (Map.Entry<String,Visite> uneEntree : dicoVisite.entrySet())
+		{
+			data[i][0] = uneEntree.getValue().getReference();
+			data[i][1] = uneEntree.getValue().getUnMedecin().getCodeMed() ;
+			data[i][2] = uneEntree.getValue().getUnMedecin().getLaLocalite().getVille();
+			i ++;
 		}
+		String[] columnNames = {"Référence", "Médecin", "Lieu"};
+		table = new JTable(data, columnNames);
+		table.getSelectionModel().addListSelectionListener(this);
 		
-		String[] columnsName = {"Référence","Code medecin","Lieu"};
-		JTliste = new JTable(lignes,columnsName);
-		JTliste.getSelectionModel().addListSelectionListener(JTliste);
-		
-		JScrollPane scrollPane = new JScrollPane(JTliste);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(400, 200));
+		p.add(scrollPane);
 		
-		pList.add(scrollPane);
+		pSaisie2 = new JPanel();
+		JLrefVisite = new JLabel("Référence : ");
+		JCrefVisite = new JComboBox<String>();
+		for(String key : dicoVisite.keySet())
+			JCrefVisite.addItem(key);
+		JBafficherVisite = new JButton("Visite Détaillée");
+		JBafficherVisite.addActionListener(this); // source d'évenement
+		pSaisie2.add(JLrefVisite);
+		pSaisie2.add(JCrefVisite);
+		pSaisie2.add(JBafficherVisite);
+		p.add(pSaisie2);
 		
-		JLreference = new JLabel("Référence");
-		pInputs.add(JLreference);
-		JTreference = new JTextField();
-		pInputs.add(JTreference);
-		JBvisite = new JButton("Visite détaillée");
-		JBvisite.addActionListener(this);
-		pButtons.add(JBvisite);
-		
-        Container contentPane = getContentPane();
-        contentPane.add(p);
+		// mise en forme de la fenêtre
+		Container contentPane = getContentPane();
+		contentPane.add(p);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-		if (source == JBvisite) {
-			if(lesVisites.containsKey(JTreference.getText())) {
-				fenetreContainer.ouvrirFenetre(new JIFVisiteCons(fenetreContainer, JTreference.getText()));
-			}
-		}
+	public void actionPerformed(ActionEvent arg0)
+	{
+		Object source = arg0.getSource();
+   		if (source == JBafficherVisite)
+   		{
+   			if (dicoVisite.containsKey((String) JCrefVisite.getSelectedItem()))
+   			{
+   	   			Visite uneVisite = dicoVisite.get((String) JCrefVisite.getSelectedItem());
+   	   			fenetreContainer.ouvrirFenetre(new JIFVisiteRecapitulatif(fenetreContainer, uneVisite));
+   			}
+   		}
+   		
+   		if(source == JCmatricule || source == JTdate)
+   		{
+   			fenetreContainer.ouvrirFenetre(new JIFVisiteListe(fenetreContainer, (String) JCmatricule.getSelectedItem(), JTdate.getText()));
+   		}
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		JCrefVisite.setSelectedItem((String)table.getValueAt(table.getSelectedRow(), 0));
 	}
 }

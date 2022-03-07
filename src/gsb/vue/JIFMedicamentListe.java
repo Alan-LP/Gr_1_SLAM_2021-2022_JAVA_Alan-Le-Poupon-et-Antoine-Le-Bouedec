@@ -2,6 +2,7 @@ package gsb.vue;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,9 +26,11 @@ public class JIFMedicamentListe extends JInternalFrame implements ActionListener
 	private HashMap<String, Medicament> dicMedicament;
 	
 	protected JPanel p;
-	protected JScrollPane scrollPane;
 	protected JPanel pSaisie;
+	
+	protected JScrollPane scrollPane;
 	protected JTextField JTcodeMedicament;
+	protected JLabel JLcodeMedicament;
 	protected JButton JBafficherFiche;
 	protected MenuPrincipal fenetreContainer;
 	protected JTable table;
@@ -60,10 +64,12 @@ public class JIFMedicamentListe extends JInternalFrame implements ActionListener
 		p.add(scrollPane);
 		
 		pSaisie = new JPanel();
-		JTcodeMedicament = new JTextField(20);
+		JLcodeMedicament = new JLabel("Code");
+		JTcodeMedicament = new JTextField(15);
 		JTcodeMedicament.setMaximumSize(JTcodeMedicament.getPreferredSize());
-		JBafficherFiche = new JButton("Afficher Fiche Medicament");
+		JBafficherFiche = new JButton("Fiche médicament détaillée");
 		JBafficherFiche.addActionListener(this);
+		pSaisie.add(JLcodeMedicament);
 		pSaisie.add(JTcodeMedicament);
 		pSaisie.add(JBafficherFiche);
 		p.add(pSaisie);
@@ -72,7 +78,7 @@ public class JIFMedicamentListe extends JInternalFrame implements ActionListener
 		Container contentPane = getContentPane();
 		contentPane.add(p);
 	
-		setTitle("Consultation données Medicaments");
+		setTitle("Liste des médicaments");
 	}
 		
 		

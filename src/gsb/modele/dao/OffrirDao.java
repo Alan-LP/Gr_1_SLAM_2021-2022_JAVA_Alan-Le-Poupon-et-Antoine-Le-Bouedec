@@ -46,5 +46,5 @@ public class OffrirDao {
 		ConnexionMySql.fermerConnexionBd();
 		return collectionDesMedicaments;
 	}
-
+	
 }
