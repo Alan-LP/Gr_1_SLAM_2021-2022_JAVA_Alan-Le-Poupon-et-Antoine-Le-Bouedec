@@ -8,10 +8,7 @@ package gsb.tests;
 
 import gsb.modele.dao.ConnexionMySql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 /**
  * @author Isabelle

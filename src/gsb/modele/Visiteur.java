@@ -7,7 +7,7 @@ public class Visiteur {
     protected String login; 
     protected String mdp; 
     protected String adresse; 
-    protected Localite uneLocalite;  
+    protected Localite uneLocalite;
     protected String dateEntree;
     protected String codeUnite; 
     protected String nomUnite;
@@ -24,7 +24,7 @@ public class Visiteur {
         this.codeUnite = codeUnite;
         this.nomUnite = nomUnite;
 }
-public String getMatricule() {
+    public String getMatricule() {
         return matricule;
     }
 

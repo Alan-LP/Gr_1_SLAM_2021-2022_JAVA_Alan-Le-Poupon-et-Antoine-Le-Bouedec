@@ -121,7 +121,7 @@ public class JIFMedicamentAdd extends JInternalFrame implements ActionListener{
 		if (source == JBajouterMedicament)
 		{
 			Medicament unMedicament = new Medicament(JTdepotLegal.getText(), JTnomCommercial.getText(), JTcomposition.getText(), JTeffets.getText(), JTcontreIndications.getText(), Float.valueOf(JTprixEchantillon.getText()),JTcodeFamille.getText(), JTlibelleFamille.getText());
-			MedicamentService.ajouterMedicament(unMedicament);
+			MedicamentService.ajouter(unMedicament);
 			this.viderText();
 		}
 	}

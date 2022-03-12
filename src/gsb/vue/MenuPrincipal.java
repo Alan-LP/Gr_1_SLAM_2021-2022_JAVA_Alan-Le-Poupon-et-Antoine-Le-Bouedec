@@ -38,8 +38,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	protected JMenuBar mbar;
 	protected JMenu mMedecins;
 	protected JMenu mMedicaments;
-
-	JMenu mVisites;
+	protected JMenu mVisites;
 
 	/**
 	 * 
@@ -73,23 +72,14 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		JMenuItem mE2 = new JMenuItem("Ajout d'un médicament");
 		mE2.addActionListener(this);
 		mMedicaments.add(mE2);
-		JMenuItem mE3 = new JMenuItem("Medicament par famille");
-		mE3.addActionListener(this);
-		mMedicaments.add(mE3);
 
 		mVisites = new JMenu("Visites");
 		JMenuItem mA1 = new JMenuItem("Ajout d'une visite");
 		mA1.addActionListener(this); // installation d'un écouteur d'action
 		mVisites.add(mA1);
-		JMenuItem mA2 = new JMenuItem("Mise à jour d'une visite");
+		JMenuItem mA2 = new JMenuItem("Liste des visites");
 		mA2.addActionListener(this);
 		mVisites.add(mA2);
-		JMenuItem mA3 = new JMenuItem("Liste des visites");
-		mA3.addActionListener(this);
-		mVisites.add(mA3);
-		JMenuItem mA4 = new JMenuItem("Récapitulatif d'une visite");
-		mA4.addActionListener(this);
-		mVisites.add(mA4);
 
 		mbar.add(mMedecins);
 		mbar.add(mMedicaments);
@@ -122,25 +112,13 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 			{
 				ouvrirFenetre(new JIFMedicamentAdd(this));
 			}
-			else if (ChoixOption.equals("Medicament par famille")) 
-			{
-				//ouvrirFenetre(new JIFMedicamentFamille(this));
-			}
 			else if (ChoixOption.equals("Ajout d'une visite")) 
 			{
-				ouvrirFenetre(new JIFVisiteAjout());
-			}
-			else if (ChoixOption.equals("Mise à jour d'une visite")) 
-			{
-				ouvrirFenetre(new JIFVisiteMaj());
+				ouvrirFenetre(new JIFVisiteAjout(this));
 			}
 			else if (ChoixOption.equals("Liste des visites")) 
 			{
-				ouvrirFenetre(new JIFVisiteListe());
-			}
-			else if (ChoixOption.equals("Récapitulatif d'une visite")) 
-			{
-				ouvrirFenetre(new JIFVisiteRecapitulatif());
+				ouvrirFenetre(new JIFVisiteListe(this, String, String));
 			}
 
 		}

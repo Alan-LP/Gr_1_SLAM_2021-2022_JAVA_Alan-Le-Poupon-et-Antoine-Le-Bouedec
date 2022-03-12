@@ -1,63 +1,77 @@
 package gsb.modele.dao;
 
 import java.sql.ResultSet;
-import java.util.HashMap;
+import java.sql.SQLException;
+import java.util.TreeMap;
 
 import gsb.modele.Medicament;
 
 public class MedicamentDao {
-
-	public static Medicament rechercher(String codeMedicament){
-		Medicament unMedicament = null;
-		
-		ResultSet reqSelect = ConnexionMySql.execReqSelection("select * from MEDICAMENT where MED_DEPOTLEGAL = '"+codeMedicament+"'");
-		try {
-			if (reqSelect.next())
-			{
-				unMedicament = new Medicament(reqSelect.getString(1), reqSelect.getString(2), reqSelect.getString(3), reqSelect.getString(4), reqSelect.getString(5), reqSelect.getFloat(6), reqSelect.getString(7), reqSelect.getString(8));
-				
-			}
-		}
-		catch(Exception e) {
-			System.out.println("erreur reqSelect.next() pour la requête - select * from MEDICAMENT where MED_DEPOTLEGAL ='"+codeMedicament+"'");
-			e.printStackTrace();
-		}
-		ConnexionMySql.fermerConnexionBd();
-		return unMedicament;
-}
-	public static int ajouter(Medicament unMedicament){
-		int verifAjout = 0;
-		
-		try {
-		String reqInsert = "insert into MEDICAMENT values ('"+unMedicament.getDepotLegal()+"','"+unMedicament.getNomCommercial()+"','"+unMedicament.getComposition()+"','"+unMedicament.getEffets()+"','"+unMedicament.getContreIndication()+"','"+unMedicament.getPrixEchantillon()+"','"+unMedicament.getCodeFamille()+"','"+unMedicament.getLibelleFamille()+"')";
-		verifAjout = ConnexionMySql.execReqMaj(reqInsert);
 	
+	public static Medicament rechercher(String depotLegal) {
+		
+		Medicament unMedoc = null;
+		String req = "SELECT * FROM MEDICAMENT WHERE MED_DEPOTLEGAL = '" + depotLegal + "';";
+		ResultSet resultat = ConnexionMySql.execReqSelection(req);
+		
+		try {
+			if(resultat.next())
+			{
+				String nomCom = resultat.getString(2);
+				String compo = resultat.getString(3);
+				String effets = resultat.getString(4);
+				String contreIndic = resultat.getString(5);
+				float prixEchant = resultat.getFloat(6);
+				String code = resultat.getString(7);
+				String libelle = resultat.getString(8);
+				
+				unMedoc = new Medicament(depotLegal, nomCom, compo, effets, contreIndic, prixEchant, code, libelle);
+			}
 			
-		}
-		catch(Exception e) {
-			System.out.println("erreur reqInsert ");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return verifAjout;
+		
+		return unMedoc;
 	}
 	
-	public static HashMap<String, Medicament> retournerMedicament(){
-		HashMap<String, Medicament> dicMedicament = new HashMap<String, Medicament>();
-		ResultSet reqSelect = ConnexionMySql.execReqSelection("select * from MEDICAMENT");
-		try {
-			while(reqSelect.next()) {
-				dicMedicament.put(reqSelect.getString(1), MedicamentDao.rechercher(reqSelect.getString(1)));
-			}
-		}
+	public static TreeMap<String, Medicament> recuplist()
+	{
+		TreeMap<String, Medicament> lesMedicaments = new TreeMap<String, Medicament>();
+		String req = "SELECT * FROM MEDICAMENT;";
+		ResultSet resultat = ConnexionMySql.execReqSelection(req);
 		
-		catch (Exception e) {
+		try {
+			while(resultat.next())
+			{
+				String depleg = resultat.getString(1);
+				String nomCom = resultat.getString(2);
+				String compo = resultat.getString(3);
+				String effets = resultat.getString(4);
+				String contreIndic = resultat.getString(5);
+				float prixEchant = resultat.getFloat(6);
+				String code = resultat.getString(7);
+				String libelle = resultat.getString(8);
+				
+				Medicament unMedicament = new Medicament(depleg, nomCom, compo, effets, contreIndic, prixEchant, code, libelle);
+				lesMedicaments.put(depleg, unMedicament);
+			}
+			
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		ConnexionMySql.fermerConnexionBd();
-		return dicMedicament;
+		return lesMedicaments;
+	}
 	
-	
+	public static boolean addMedicament(Medicament unMedicament) {
+		boolean success = true;
+		String req = "INSERT INTO MEDICAMENT VALUES `MED_DEPOTLEGAL`, `MED_NOMCOMMERCIAL`, `MED_COMPOSITION`, `MED_EFFETS`, `MED_CONTREINDIC`, `MED_PRIXECHANTILLON`, `FAM_CODE`,`FAM_LIBELLE`";
+		if(ConnexionMySql.execReqMaj(req) == 0)
+		{
+			success = false;
+		}
+		return success;
 	}
 	
 }

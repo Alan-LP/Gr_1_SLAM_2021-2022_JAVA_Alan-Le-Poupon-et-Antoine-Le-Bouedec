@@ -6,11 +6,13 @@
  */
 package gsb.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import gsb.modele.Medecin;
 import gsb.modele.dao.MedecinDao;
+import gsb.utils.ServiceUtils;
 
 /**
  * @author Isabelle
@@ -22,11 +24,13 @@ public class MedecinService {
 	
 	public static Medecin rechercherMedecin(String unCodeMedecin){
 		Medecin unMedecin = null;
-		try{
-		if (unCodeMedecin==null) {
-            throw new Exception("Donnée obligatoire : un code medecin");
-        }
-		unMedecin = MedecinDao.rechercher(unCodeMedecin);
+		try {
+			if (unCodeMedecin == null)
+	            throw new Exception("Donnée obligatoire : code");
+			if(!ServiceUtils.isACodeMed(unCodeMedecin))
+				throw new Exception("Le code médecin ne correspond pas au format M000.");
+			
+			unMedecin = MedecinDao.rechercher(unCodeMedecin);
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
@@ -34,15 +38,19 @@ public class MedecinService {
 		return unMedecin;
 	}
 	
-	public static ArrayList<Medecin> retournerCollectionDesMedecins(){
-		ArrayList<Medecin> collectionDesMedecins = new ArrayList<Medecin>();
-		collectionDesMedecins = MedecinDao.retournerCollectionDesMedecins();
-		return collectionDesMedecins;
+	public static TreeMap<String, Medecin> recupListe()
+	{
+		HashMap<String, Medecin> lesMedecinsDesor = MedecinDao.retournerDictionnaireDesMedecins();
+		TreeMap<String, Medecin> lesMedecins = new TreeMap<String, Medecin>();
+		
+		for (Map.Entry<String, Medecin> uneEntree : lesMedecinsDesor.entrySet())
+		{
+			String codeMed = uneEntree.getKey();
+			Medecin leMedecin = uneEntree.getValue();
+			lesMedecins.put(codeMed, leMedecin);
+		}
+		
+		return lesMedecins;
 	}
 	
-	public static HashMap<String,Medecin> retournerDictionnaireDesMedecins(){
-		HashMap<String, Medecin> diccoDesMedecins = new HashMap<String, Medecin>();
-		diccoDesMedecins = MedecinDao.retournerDictionnaireDesMedecins();
-		return diccoDesMedecins;
-	}
 }

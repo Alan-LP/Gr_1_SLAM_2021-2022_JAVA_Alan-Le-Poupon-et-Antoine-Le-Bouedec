@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,32 +30,29 @@ import gsb.service.VisiteService;
 
 public class JIFVisiteOffres extends JInternalFrame implements ActionListener, ListSelectionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2154252726365388910L;
 	
+	private TreeMap<String, Offrir> dicoOffres;
+	
 	protected JPanel p;
+	protected JPanel pSaisie;
+	protected JPanel pBoutons;
 	
-	protected JPanel pSaisie1;
+	protected JButton JBajouter;
+	protected JButton JBvisite;
+	
 	protected JLabel JLreference;
-	protected JComboBox<String> JCreference;
-	
-	protected JPanel pSaisie2;
 	protected JLabel JLdepotLegal;
-	protected JComboBox<String> JCdepotLegal;
 	protected JLabel JLquantite;
+	
 	protected JTextField JTquantite;
 	
-	protected JPanel pBoutons;
-	protected JButton ajouter;
+	protected JComboBox<String> JCreference;
+	protected JComboBox<String> JCdepotLegal;
 	
-	protected JScrollPane scrollPane;
-	private TreeMap<String, Offrir> dicoOffres;
 	protected JTable table;
 	
-	protected JPanel pBoutonsBas;
-	protected JButton visite;
+	protected JScrollPane scrollPane;
 	
 	protected MenuPrincipal fenetreContainer;
 	
@@ -65,6 +61,7 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 		this.fenetreContainer = fenetreContainer;
 		
 		p = new JPanel(new GridBagLayout());
+		pSaisie = new JPanel(new GridBagLayout());
 		
 		JLreference = new JLabel("Référence : ");
 		JCreference = new JComboBox<String>();
@@ -74,28 +71,32 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 		JCreference.setSelectedItem(uneVisite.getReference());
 		JCreference.addActionListener(this);
 		
-		pSaisie1 = new JPanel(new GridLayout(1,2));
-		pSaisie1.add(JLreference);
-		pSaisie1.add(JCreference);
-		
 		JLdepotLegal = new JLabel("Dépôt légal : ");
 		JCdepotLegal = new JComboBox<String>();
 		TreeMap<String, Medicament> lesMedocs = MedicamentService.recupListe();
 		for(String key : lesMedocs.keySet())
 			JCdepotLegal.addItem(key);
+		
 		JLquantite = new JLabel("Quantité : ");
 		JTquantite = new JTextField();
 		
-		pSaisie2 = new JPanel(new GridLayout(2,2));
-		pSaisie2.add(JLdepotLegal);
-		pSaisie2.add(JCdepotLegal);
-		pSaisie2.add(JLquantite);
-		pSaisie2.add(JTquantite);
-		
-		ajouter = new JButton("Ajouter");
-		ajouter.addActionListener(this);
-		pBoutons = new JPanel();
-		pBoutons.add(ajouter);
+		GridBagConstraints constraint = new GridBagConstraints();
+		constraint.fill = GridBagConstraints.HORIZONTAL;
+		constraint.insets = new Insets(5,10,5,10);
+		constraint.gridx = 0;
+		constraint.gridy = 0;
+		pSaisie.add(JLreference, constraint);
+		constraint.gridy = 1;
+		pSaisie.add(JLdepotLegal, constraint);
+		constraint.gridy = 2;
+		pSaisie.add(JLquantite, constraint);
+		constraint.gridx = 1;
+		constraint.gridy = 0;
+		pSaisie.add(JCreference, constraint);
+		constraint.gridy = 1;
+		pSaisie.add(JCdepotLegal, constraint);
+		constraint.gridy = 2;
+		pSaisie.add(JTquantite, constraint);
 		
 		dicoOffres = OffrirService.rechercherOffresVisite(uneVisite);
 		int nbLignes = dicoOffres.size();
@@ -107,7 +108,7 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 			data[i][1] = String.valueOf(uneEntree.getValue().getQteOfferte());
 			i ++;
 		}
-		String[] columnNames = {"Dépôt Légal", "Quantité"};
+		String[] columnNames = {"Dépôt Légal", "Quantité offerte"};
 		table = new JTable(data, columnNames);
 		table.getSelectionModel().addListSelectionListener(this);
 		
@@ -115,30 +116,34 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 		scrollPane.setPreferredSize(new Dimension(400, 60));
 		scrollPane.setMinimumSize(new Dimension(300, 60));
 		
-		visite = new JButton("Fiche Visite");
-		visite.addActionListener(this);
-		pBoutonsBas = new JPanel();
-		pBoutonsBas.add(visite);
+		JBajouter = new JButton("Ajouter");
+		JBajouter.addActionListener(this);
+		
+		JBvisite = new JButton("Retour");
+		JBvisite.addActionListener(this);
+		
+		pBoutons = new JPanel();
+		pBoutons.add(JBajouter);
+		pBoutons.add(JBvisite);
+		
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+	    setTitle("Consultation et ajout des offres de la visite");
+		
+		// mise en forme de la fenêtre
 		
 		Container contentPane = getContentPane();
 		GridBagConstraints pConstraint = new GridBagConstraints();
-		pConstraint.insets = new Insets(7,0,7,0);
+		pConstraint.insets = new Insets(7,0,20,0);
 		pConstraint.gridwidth = 2;
 		pConstraint.gridx = 0;
 		pConstraint.gridy = 0;
-		p.add(pSaisie1, pConstraint);
-		pConstraint.gridwidth = 1;
-		pConstraint.gridy = 1;
-		p.add(pSaisie2, pConstraint);
-		pConstraint.gridx = 1;
-		pConstraint.gridy = 1;
-		p.add(pBoutons, pConstraint);
+		p.add(pSaisie, pConstraint);
 		pConstraint.gridwidth = 2;
 		pConstraint.gridx = 0;
-		pConstraint.gridy = 2;
+		pConstraint.gridy = 1;
 		p.add(scrollPane, pConstraint);
-		pConstraint.gridy = 3;
-		p.add(pBoutonsBas, pConstraint);
+		pConstraint.gridy = 2;
+		p.add(pBoutons, pConstraint);
 		contentPane.add(p);
 	}
 	
@@ -155,7 +160,7 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
-		if(source == ajouter)
+		if(source == JBajouter)
 		{
 			OffrirService.inserer(offreFromFields());
 			fenetreContainer.ouvrirFenetre(new JIFVisiteOffres(fenetreContainer, VisiteService.rechercherVisite((String) JCreference.getSelectedItem())));
@@ -164,7 +169,7 @@ public class JIFVisiteOffres extends JInternalFrame implements ActionListener, L
 		{
 			fenetreContainer.ouvrirFenetre(new JIFVisiteOffres(fenetreContainer, VisiteService.rechercherVisite((String) JCreference.getSelectedItem())));
 		}
-		if(source == visite)
+		if(source == JBvisite)
 		{
 			fenetreContainer.ouvrirFenetre(new JIFVisiteRecapitulatif(fenetreContainer, VisiteService.rechercherVisite((String) JCreference.getSelectedItem())));
 		}

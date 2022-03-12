@@ -19,16 +19,8 @@ import javax.swing.JTextField;
 import gsb.modele.Visite;
 import gsb.service.VisiteService;
 
-/**
- * @author LEMONNIER Bastien
- * 25 oct. 2021
- *
- */
 public class JIFVisiteRecapitulatif extends JInternalFrame implements ActionListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 326597107518661843L;
 	
 	protected JPanel p;  
@@ -58,8 +50,8 @@ public class JIFVisiteRecapitulatif extends JInternalFrame implements ActionList
 		pBoutons = new JPanel(); // panneau supportant les boutons
 		pTexte = new JPanel(new GridBagLayout());
 		
-		modifier = new JButton("Modifier");
-		offres = new JButton("Offres de la Visite");
+		modifier = new JButton("Ajouter/modifier le commentaire de la visite");
+		offres = new JButton("Les offres de la visite");
 		
 		JLreference = new JLabel("Référence");
 		JLdateVisite = new JLabel("Date Visite");
@@ -90,7 +82,7 @@ public class JIFVisiteRecapitulatif extends JInternalFrame implements ActionList
 		
 		GridBagConstraints constraint = new GridBagConstraints();
 		constraint.fill = GridBagConstraints.HORIZONTAL;
-		constraint.insets = new Insets(2,10,2,10);
+		constraint.insets = new Insets(5,10,5,10);
 		constraint.gridx = 0;
 		constraint.gridy = 0;
 		pTexte.add(JLreference, constraint);
@@ -119,12 +111,15 @@ public class JIFVisiteRecapitulatif extends JInternalFrame implements ActionList
         pBoutons.add(offres);
         modifier.addActionListener(this);
         offres.addActionListener(this);
+        
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+	    setTitle("Récapitulatif d'une visite");
 		
 		// mise en forme de la fenêtre
 
 		Container contentPane = getContentPane();
 		GridBagConstraints pConstraint = new GridBagConstraints();
-		pConstraint.insets = new Insets(10,0,10,0);
+		pConstraint.insets = new Insets(0,0,30,0);
 		pConstraint.gridx = 0;
 		pConstraint.gridy = 0;
 		p.add(pTexte, pConstraint);

@@ -1,44 +1,54 @@
 package gsb.service;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import gsb.modele.Medicament;
 import gsb.modele.dao.MedicamentDao;
+import gsb.utils.ServiceUtils;
 
 public class MedicamentService {
 	
-	public static Medicament rechercherMedicament(String unCodeMedicament){
-		Medicament unMedicament=null;
-		try{
-		if (unCodeMedicament==null) {
-            throw new Exception("Code médicament non renseigné");
-        }
-		unMedicament = MedicamentDao.rechercher(unCodeMedicament);
+	public static Medicament rechercher(String depotLegal)
+	{
+		Medicament unMedoc =  null;
+		try {
+			if(depotLegal == null)
+				throw new Exception("Donnée obligatoire : code");
+			if(!ServiceUtils.isADepotLegal(depotLegal))
+				throw new Exception("Le dépot légal ne correspond pas au format 'XXXXXXXXXX'");
+			unMedoc = MedicamentDao.rechercher(depotLegal);
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
 		}
-		return unMedicament;
+		return unMedoc;
 	}
 	
-	public static int ajouterMedicament(Medicament unMedicament){
-		int resultAjoutMedicament = 0;
-		try{
-		if (unMedicament==null) {
-            throw new Exception("Medicament à ajouter non renseigné");
-        }
-		resultAjoutMedicament = MedicamentDao.ajouter(unMedicament);
+	public static TreeMap<String, Medicament> recupListe()
+	{
+		TreeMap<String, Medicament> lesMedicaments = new TreeMap<String, Medicament>();
+		try {
+			 lesMedicaments = MedicamentDao.recuplist();
 		}
 		catch(Exception e){
 			System.out.println( e.getMessage());
 		}
-		return resultAjoutMedicament;
+		return lesMedicaments;
 	}
-	public static HashMap<String, Medicament> retournerMedicament()
+	
+	public static boolean ajouter(Medicament unMedicament)
 	{
-		HashMap<String,Medicament> dicMedicament = new HashMap<String, Medicament>();
-		dicMedicament =MedicamentDao.retournerMedicament();
-		return dicMedicament;
+		boolean success = false;
+		try
+		{
+			MedicamentDao.addMedicament(unMedicament); 
+			success = true;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return success;
 	}
 
 }

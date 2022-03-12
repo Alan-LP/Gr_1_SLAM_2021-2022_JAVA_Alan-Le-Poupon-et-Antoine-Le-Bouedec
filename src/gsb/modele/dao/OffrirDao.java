@@ -1,50 +1,140 @@
 package gsb.modele.dao;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.util.TreeMap;
 
 import gsb.modele.Medicament;
-import gsb.modele.Visite;
 import gsb.modele.Offrir;
+import gsb.modele.Visite;
 
 public class OffrirDao {
 	
-	//retourne une collection contenant les visites concernant le médicament donné en paramètre
-	public static ArrayList<Visite> retournerListeVisite(String unCodeMedicament)
+	public static Offrir rechercher(String depotLegal, String reference)
 	{
-		ArrayList<Visite> collectionDesVisites = new ArrayList<Visite>();
-		ResultSet reqSelection = ConnexionMySql.execReqSelection("select REFERENCE from OFFRIR where MED_DEPOTLEGAL = '"+unCodeMedicament+"'");
+		Offrir uneOffre = null;
+		Medicament unMedoc = null;
+		Visite uneVisite = null;
+		String req = "SELECT * FROM OFFRIR where MED_DEPOTLEGAL = '" + depotLegal + "' AND REFERENCE='" + reference + "';";
+		ResultSet resultat = ConnexionMySql.execReqSelection(req);
+		
 		try {
-			while (reqSelection.next())
+			if(resultat.next())
 			{
-				collectionDesVisites.add(VisiteDao.rechercher(reqSelection.getString(1)));
+				int qteOfferte = resultat.getInt(1);
+				uneVisite = VisiteDao.rechercher(resultat.getString(2));
+				unMedoc = MedicamentDao.rechercher(resultat.getString(3));
+				
+				uneOffre = new Offrir(unMedoc, uneVisite, qteOfferte);
 			}
-		}
-		catch (Exception e) {
-			System.out.println("erreur de la requête de selection");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		ConnexionMySql.fermerConnexionBd();
-		return collectionDesVisites;
+		return uneOffre;
 	}
 	
-	//retourne une collection contenant les médicaments offert lors d'une visite en paramètre
-	public static ArrayList<Medicament> retournerListeMedicament(String unCodeVisite)
+	private static boolean offreExists(String depotLegal, String reference)
 	{
-		ArrayList<Medicament> collectionDesMedicaments = new ArrayList<Medicament>();
-		ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from OFFRIR where REFERENCE = '"+unCodeVisite+"'");
+		boolean success = false;
+		
+		String req = "SELECT EXISTS(SELECT * FROM OFFRIR WHERE MED_DEPOTLEGAL='" + depotLegal + "' AND REFERENCE='" + reference + "');";
+		ResultSet resultat = ConnexionMySql.execReqSelection(req);
+		
 		try {
-			while (reqSelection.next())
+			if(resultat.next())
 			{
-				collectionDesMedicaments.add(MedicamentDao.rechercher(reqSelection.getString(1)));
+				boolean leSucces = resultat.getBoolean(1);
+				if(leSucces)
+					success = true;
 			}
-		}
-		catch (Exception e) {
-			System.out.println("erreur de la requête de selection");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		ConnexionMySql.fermerConnexionBd();
-		return collectionDesMedicaments;
+		
+		
+		return success;
 	}
 	
+	public static boolean ajoutStock(Offrir uneOffre)
+	{
+		boolean success = false;
+		
+		if(offreExists(uneOffre.getUnMedicament().getDepotLegal(), uneOffre.getUneVisite().getReference()))
+		{
+			Offrir ancienneOffre = rechercher(uneOffre.getUnMedicament().getDepotLegal(), uneOffre.getUneVisite().getReference());
+			uneOffre.setQteOfferte(uneOffre.getQteOfferte() + ancienneOffre.getQteOfferte());
+			success = update(uneOffre);
+		}
+		else
+		{
+			success = insert(uneOffre);
+		}
+		
+		return success;
+	}
+	
+	private static boolean update(Offrir uneOffre)
+	{
+		boolean success = false;
+		
+		String req = "UPDATE OFFRIR SET QTTDON='" + uneOffre.getQteOfferte() + "' WHERE MED_DEPOTLEGAL='" + uneOffre.getUnMedicament().getDepotLegal() + "' AND REFERENCE='" + uneOffre.getUneVisite().getReference() + "';";
+		
+		if(ConnexionMySql.execReqMaj(req) == 1)
+			success = true;
+		
+		return success;
+	}
+	
+	private static boolean insert(Offrir uneOffre)
+	{
+		boolean success = false;
+		
+		String req = "INSERT INTO OFFRIR VALUES ('" + uneOffre.getQteOfferte() + "','" + uneOffre.getUneVisite().getReference() + "','" + uneOffre.getUnMedicament().getDepotLegal() + "');";
+		
+		if(ConnexionMySql.execReqMaj(req) == 1)
+			success = true;
+		
+		return success;
+	}
+	
+	public static TreeMap<String, Offrir> retournerOffresVisite(Visite laVisite)
+	{
+		TreeMap<String, Offrir> lesOffres = new TreeMap<String, Offrir>();
+		
+		String req = "SELECT * FROM OFFRIR WHERE REFERENCE = '" + laVisite.getReference() + "';";
+		ResultSet results = ConnexionMySql.execReqSelection(req);
+		
+		try {
+			while(results.next())
+			{
+				int quantite = results.getInt(1);
+				Medicament leMedicament = MedicamentDao.rechercher(results.getString(3));
+				Offrir offre = new Offrir(leMedicament, laVisite, quantite);
+				lesOffres.put(leMedicament.getDepotLegal(), offre);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Erreur retourner offres visite.");
+		}
+		
+		return lesOffres;
+	}
+	
+	public static int nombreOffresVisite(Visite uneVisite)
+	{
+		int nmb = 0;
+		String req = "SELECT COUNT(*) FROM OFFRIR WHERE REFERENCE = '" + uneVisite.getReference() + "';";
+		ResultSet results = ConnexionMySql.execReqSelection(req);
+		try {
+			if(results.next())
+			{
+				nmb = results.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Erreur lors de la requête : " + req);
+			e.printStackTrace();
+		}
+		return nmb;
+	}
+
 }

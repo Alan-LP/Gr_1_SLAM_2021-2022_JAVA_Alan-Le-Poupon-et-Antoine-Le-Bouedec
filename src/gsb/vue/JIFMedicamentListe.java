@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -23,7 +24,7 @@ public class JIFMedicamentListe extends JInternalFrame implements ActionListener
 
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<String, Medicament> dicMedicament;
+	private TreeMap<String, Medicament> dicMedicament;
 	
 	protected JPanel p;
 	protected JPanel pSaisie;
@@ -39,7 +40,7 @@ public class JIFMedicamentListe extends JInternalFrame implements ActionListener
 		
 		fenetreContainer = uneFenetreContainer;
 		// récupération des données Medicament dans la collection
-		dicMedicament = MedicamentService.retournerMedicament();
+		dicMedicament = MedicamentService.recupListe();
 		
 		int nbLignes = dicMedicament.size();
 		

@@ -30,24 +30,26 @@ public class JIFVisiteListe extends JInternalFrame implements ActionListener, Li
 	
 	private TreeMap<String,Visite> dicoVisite;
 
-
 	protected JPanel p;
-	
 	protected JPanel pSaisie1;
+	protected JPanel pSaisie2;
+	
+	protected JButton JBafficherVisite;
+	
 	protected JLabel JLmatricule;
-	protected JComboBox<String> JCmatricule;
 	protected JLabel JLdate;
+	protected JLabel JLrefVisite;
+	
 	protected JTextField JTdate;
+	
+	protected JComboBox<String> JCmatricule;
+	protected JComboBox<String> JCrefVisite;
+	
+	protected JTable table;
 	
 	protected JScrollPane scrollPane;
 	
-	protected JPanel pSaisie2;
-	protected JLabel JLrefVisite;
-	protected JComboBox<String> JCrefVisite;
-	protected JButton JBafficherVisite;
-	
 	protected MenuPrincipal fenetreContainer;
-	protected JTable table;
 
 	public JIFVisiteListe(MenuPrincipal uneFenetreContainer, String matricule, String date) {
 
@@ -64,7 +66,6 @@ public class JIFVisiteListe extends JInternalFrame implements ActionListener, Li
 		JLmatricule = new JLabel("Matricule Visiteur : ");
 		JCmatricule = new JComboBox<String>();
 		TreeMap<String, Visiteur> lesVisiteurs = VisiteurService.recupListe();
-		JCmatricule.addItem("");
 		for(String key : lesVisiteurs.keySet())
 			JCmatricule.addItem(key);
 		JCmatricule.setSelectedItem(matricule);
@@ -89,7 +90,7 @@ public class JIFVisiteListe extends JInternalFrame implements ActionListener, Li
 			data[i][2] = uneEntree.getValue().getUnMedecin().getLaLocalite().getVille();
 			i ++;
 		}
-		String[] columnNames = {"Référence", "Médecin", "Lieu"};
+		String[] columnNames = {"Référence", "Code médecin", "Lieu"};
 		table = new JTable(data, columnNames);
 		table.getSelectionModel().addListSelectionListener(this);
 		
@@ -102,14 +103,18 @@ public class JIFVisiteListe extends JInternalFrame implements ActionListener, Li
 		JCrefVisite = new JComboBox<String>();
 		for(String key : dicoVisite.keySet())
 			JCrefVisite.addItem(key);
-		JBafficherVisite = new JButton("Visite Détaillée");
+		JBafficherVisite = new JButton("Visite détaillée");
 		JBafficherVisite.addActionListener(this); // source d'évenement
 		pSaisie2.add(JLrefVisite);
 		pSaisie2.add(JCrefVisite);
 		pSaisie2.add(JBafficherVisite);
 		p.add(pSaisie2);
 		
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+	    setTitle("Liste des visites");
+		
 		// mise en forme de la fenêtre
+	    
 		Container contentPane = getContentPane();
 		contentPane.add(p);
 	}
