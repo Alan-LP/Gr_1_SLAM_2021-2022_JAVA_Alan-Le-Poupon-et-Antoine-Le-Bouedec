@@ -19,13 +19,13 @@ public class ConnexionMySql
 	 * methode qui permet la connexion à la base de données
 	 */
 	public static void connecterBd(){
-		String url = "jdbc:mysql://192.168.1.83:3306/GSB"; // url : chaine de connexion
+		String url = "jdbc:mysql://192.171.1.13:3306/GSB"; // url : chaine de connexion
 		//String url = "jdbc:mysql://localhost/GSB";
 		// try permet d'essayer de lancer la connexion
 		try 
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			cnx = DriverManager.getConnection(url,"usergsb","password"); 
+			cnx = DriverManager.getConnection(url,"admindb","password"); 
 		} 
 		// si la connexion echoue un message d'erreur est affiché
         catch(Exception e) 
